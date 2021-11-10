@@ -1,0 +1,594 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8EF59C45-A0CB-40DD-AC8C-D0C946D0092C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MathLib.Tests</RootNamespace>
+    <AssemblyName>MathLib.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MathLib.Moles, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ExtendedReflection, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Moles.Framework, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.Pex.Framework, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.Pex.Linq, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="mscorlib.Behaviors, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="mscorlib.Moles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0ae41878053f6703, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Util\Util.csproj">
+      <Project>{1E22CAC4-8E90-4DD7-A754-6D1EF0845230}</Project>
+      <Name>Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MathLib.csproj">
+      <Project>{06119B37-8AB7-47AC-A943-672FEEEEC597}</Project>
+      <Name>MathLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="General\BasicMathTest.cs" />
+    <Compile Include="General\BasicMathTest.IsPowerOf2.g.cs">
+      <DependentUpon>BasicMathTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="General\BasicMathTest.Sqr.g.cs">
+      <DependentUpon>BasicMathTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factories\ComplexVectorFactory.cs" />
+    <Compile Include="Matrices\ComplexVectorTest.Constructor01.g.cs">
+      <DependentUpon>ComplexVectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexVectorTest.Constructor02.g.cs">
+      <DependentUpon>ComplexVectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexVectorTest.Constructor03.g.cs">
+      <DependentUpon>ComplexVectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexVectorTest.Constructor04.g.cs">
+      <DependentUpon>ComplexVectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexVectorTest.Constructor05.g.cs">
+      <DependentUpon>ComplexVectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexVectorTest.cs" />
+    <Compile Include="Factories\ComplexMatrixFactory.cs" />
+    <Compile Include="Factories\MatrixFactory.cs" />
+    <Compile Include="Factories\VectorFactory.cs" />
+    <Compile Include="General\MathExtensionsTest.cs" />
+    <Compile Include="General\MathExtensionsTest.IsEqualTo.g.cs">
+      <DependentUpon>MathExtensionsTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="General\MathExtensionsTest.IsEqualTo01.g.cs">
+      <DependentUpon>MathExtensionsTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.AsVector.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.Clone.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.ColumnEnumeratorGet.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.Constructor.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.Constructor01.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.Constructor02.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.Constructor03.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.Constructor04.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.Constructor05.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.cs" />
+    <Compile Include="Matrices\ComplexMatrixTest.GetColumn.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.GetRow.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.IsEqualTo.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.RowEnumeratorGet.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.SetColumn.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.SetRow.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\ComplexMatrixTest.Transpose.g.cs">
+      <DependentUpon>ComplexMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixData.cs" />
+    <Compile Include="Matrices\MatrixTest.Clone.g.cs">
+      <DependentUpon>MatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTest.Constructor01.g.cs">
+      <DependentUpon>MatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTest.Constructor02.g.cs">
+      <DependentUpon>MatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTest.Constructor03.g.cs">
+      <DependentUpon>MatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTest.Constructor04.g.cs">
+      <DependentUpon>MatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTest.cs" />
+    <Compile Include="Matrices\MatrixTest.GetRow.g.cs">
+      <DependentUpon>MatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTest.IsEqualTo.g.cs">
+      <DependentUpon>MatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTest.RowNorms.g.cs">
+      <DependentUpon>MatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.Add.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.Clone.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.Constructor01.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.Constructor02.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.Divide.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.Multiply01.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.Multiply02.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.Negate.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.op_Addition.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.op_Equality.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.op_Inequality.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.op_Multiply.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.op_Subtraction.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.op_UnaryNegation.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTest.Subtract.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Add.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.AsVector.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Clone.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.ColumnEnumeratorGet.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.ColumnsGet.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Constructor01.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Constructor02.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.cs" />
+    <Compile Include="Matrices\MatrixTValueTypeTest.Divide.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Equals01.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Equals02.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.GetColumn.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.GetRow.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.IsSquareGet.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.ItemGet.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.ItemSet.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Multiply01.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Multiply02.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Negate.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.op_Addition.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.op_Equality.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.op_Inequality.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.op_Multiply.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.op_Subtraction.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.op_UnaryNegation.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.RowEnumeratorGet.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.RowsGet.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.SetColumn01.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.SetRow01.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Subtract.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.ToString01.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.ToString02.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.Transpose.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixTValueTypeTest.valuesDataGet.g.cs">
+      <DependentUpon>MatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FFT\FourierTest.cs" />
+    <Compile Include="FFT\FourierTest.FFT2D.g.cs">
+      <DependentUpon>FourierTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FFT\FourierTest.IFFT2D.g.cs">
+      <DependentUpon>FourierTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseMatrixTValueTypeTest.Constructor01.g.cs">
+      <DependentUpon>SparseMatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseMatrixTValueTypeTest.Constructor02.g.cs">
+      <DependentUpon>SparseMatrixTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseMatrixTValueTypeTest.cs" />
+    <Compile Include="Matrices\VectorTest.Add.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Clone.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Constructor.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Constructor01.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Constructor02.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Constructor03.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Constructor04.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.cs" />
+    <Compile Include="Matrices\VectorTest.Divide.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.GetEnumerator.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.InfinityNormGet.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.ItemGet.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.ItemSet.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.LengthGet.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Multiply01.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Multiply02.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Negate.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.NormGet.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.NormSquaredGet.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.OneNormGet.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.op_Addition.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.op_Division.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.op_Multiply01.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.op_Multiply02.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.op_Subtraction.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.op_UnaryNegation.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.OrientationGet.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTest.Subtract.g.cs">
+      <DependentUpon>VectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.Add.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.Divide.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.Multiply01.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.Multiply02.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.Negate.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.op_Addition.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.op_Multiply.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.op_Subtraction.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.op_UnaryNegation.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.Subtract.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixExtensionsTest.AsComplexMatrix.g.cs">
+      <DependentUpon>MatrixExtensionsTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\MatrixExtensionsTest.cs" />
+    <Compile Include="Matrices\MatrixExtensionsTest.IsEqualTo.g.cs">
+      <DependentUpon>MatrixExtensionsTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\PexAssemblyInfo.cs" />
+    <Compile Include="Matrices\VectorTValueTypeTest.Constructor01.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.Constructor02.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.Constructor03.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.Constructor04.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.CopyTo.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.cs" />
+    <Compile Include="Matrices\VectorTValueTypeTest.ItemGet.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.ItemSet.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.LengthGet.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\VectorTValueTypeTest.OrientationGet.g.cs">
+      <DependentUpon>VectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseVectorTest.Constructor01.g.cs">
+      <DependentUpon>SparseVectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseVectorTest.Constructor02.g.cs">
+      <DependentUpon>SparseVectorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseVectorTest.cs" />
+    <Compile Include="Matrices\SparseVectorTValueTypeTest.Constructor01.g.cs">
+      <DependentUpon>SparseVectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseVectorTValueTypeTest.Constructor02.g.cs">
+      <DependentUpon>SparseVectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseVectorTValueTypeTest.cs" />
+    <Compile Include="Matrices\SparseVectorTValueTypeTest.ItemGet.g.cs">
+      <DependentUpon>SparseVectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseVectorTValueTypeTest.ItemSet.g.cs">
+      <DependentUpon>SparseVectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseVectorTValueTypeTest.LengthGet.g.cs">
+      <DependentUpon>SparseVectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseVectorTValueTypeTest.OrientationGet.g.cs">
+      <DependentUpon>SparseVectorTValueTypeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseMatrixTest.Constructor01.g.cs">
+      <DependentUpon>SparseMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseMatrixTest.Constructor02.g.cs">
+      <DependentUpon>SparseMatrixTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matrices\SparseMatrixTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Moles Include="MathLib.moles" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData\fftOfTestData1.txt" />
+    <Content Include="TestData\fftOfTestData2.txt" />
+    <Content Include="TestData\fftOfTestData2D.txt" />
+    <Content Include="TestData\testData1.txt" />
+    <Content Include="TestData\testData2.txt" />
+    <Content Include="TestData\testData2D.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Moles Include="mscorlib.moles">
+      <SubType>Designer</SubType>
+    </Moles>
+    <None Include="Matrices\matrixData.mat" />
+    <Content Include="TestData\CM_A.csv" />
+    <Content Include="TestData\CM_ADivideD.csv" />
+    <Content Include="TestData\CM_AMinusB.csv" />
+    <Content Include="TestData\CM_ANegated.csv" />
+    <Content Include="TestData\CM_APlusB.csv" />
+    <Content Include="TestData\CM_ATimesC.csv" />
+    <Content Include="TestData\CM_ATimesD.csv" />
+    <Content Include="TestData\CM_ATransposed.csv" />
+    <Content Include="TestData\CM_B.csv" />
+    <Content Include="TestData\CM_C.csv" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
