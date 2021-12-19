@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace MathLib.Matrices
 {
     /// <summary>
-    /// The exception that is thrown when the dimensionality of a Vector or Matric
+    /// The exception that is thrown when the dimensionality of a Vector or Matrix
     /// object are incompatible for a requested operation.
     /// </summary>
     [Serializable]

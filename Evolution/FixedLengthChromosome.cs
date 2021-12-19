@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 using Util;
 
@@ -10,34 +12,30 @@ namespace MathLib.Evolution
     {
         private readonly TValue[] _genes;      
 
-        protected FixedLengthChromosome(TValue[] initialValues)
+        protected FixedLengthChromosome(IReadOnlyList<TValue> initialValues)
         {
             // // Contract.Requires(initialValues != null);
             // // Contract.Requires(initialValues.Length > 0);
             // //Contract.Ensures(Length == initialValues.Length);
 
-            _genes = new TValue[initialValues.Length];
+            _genes = new TValue[initialValues.Count];
             for (int i = 0; i < _genes.Length; i++)
                 _genes[i] = initialValues[i].DeepClone();
         }
 
-        public int Length { get { return _genes.Length; } }        
+        public int Length => _genes.Length;
 
         public TValue this[int index]
         {
-            get
-            {
+            get =>
                 // // Contract.Requires(index >= 0 && index < Length);
                 // //Contract.Ensures(// Contract.Result<TValue>() != null);
-                return _genes[index];
-            }
+                _genes[index];
 
-            set
-            {
+            set =>
                 // // Contract.Requires(index >= 0 && index < Length);
                 // // Contract.Requires(value != null);
                 _genes[index] = value;
-            }
         }
 
         public virtual TChromosome Crossover(TChromosome extraChromosome)
@@ -45,7 +43,7 @@ namespace MathLib.Evolution
                        
             var newGenes = new TValue[Length];
 
-            int pt1, pt2;   // crossover points            
+            int pt1;   // crossover points            
 
             // Contract.Assume(Length == extraChromosome.Length);
             switch (GeneticAlgorithm.CrossoverType)
@@ -59,12 +57,10 @@ namespace MathLib.Evolution
                     break;
                 case CrossoverMethod.TwoPoint:
                     pt1 = StaticRandom.Next(Length);
-                    pt2 = StaticRandom.Next(Length);
+                    var pt2 = StaticRandom.Next(Length);   // crossover points            
                     if (pt2 < pt1)  // swap values
                     {
-                        var tmp = pt1;
-                        pt1 = pt2;
-                        pt2 = tmp;
+                        (pt1, pt2) = (pt2, pt1);
                     }
                     for (int i = 0; i < pt1; i++)
                         newGenes[i] = this[i];
@@ -80,6 +76,8 @@ namespace MathLib.Evolution
                         else
                             newGenes[i] = this[i];
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }            
             
             return CreateChromosome(newGenes);
@@ -91,18 +89,10 @@ namespace MathLib.Evolution
 
         #region IDeepCloneable<Chromosome<T>> Members
 
+        // ReSharper disable once UnusedMember.Global
         public abstract TChromosome DeepClone();    
 
         #endregion
 
-        [ContractInvariantMethod]
-// ReSharper disable UnusedMember.Local
-        private void ObjectInvariant()
-// ReSharper restore UnusedMember.Local
-        {
-            // Contract.Invariant(_genes != null);
-            // Contract.Invariant(_genes.Length > 0);
-            // Contract.Invariant(// Contract.ForAll(_genes, g => g != null));
-        }
     }
 }

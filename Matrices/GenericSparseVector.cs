@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics.Contracts;
 
 namespace MathLib.Matrices
 {
@@ -49,27 +48,13 @@ namespace MathLib.Matrices
 
         #region IVector<TValueType> Members
 
-        public VectorType Orientation
-        {
-            get
-            {
-                return Rows == 1 ? VectorType.RowVector : VectorType.ColumnVector;
-            }
-        }
+        public VectorType Orientation => Rows == 1 ? VectorType.RowVector : VectorType.ColumnVector;
 
-        public int Length
-        {
-            get
-            {
-                return Rows == 1 ? Columns : Rows;
-            }
-        }
+        public int Length => Rows == 1 ? Columns : Rows;
 
         public TValueType this[int index]
         {
-            get {
-                return Rows == 1 ? this[0, index] : this[index, 0];
-            }
+            get => Rows == 1 ? this[0, index] : this[index, 0];
             set
             {
                 if (Rows == 1)
@@ -126,8 +111,8 @@ namespace MathLib.Matrices
 
             SparseVector<TValueType> result = (SparseVector<TValueType>)lhs.DeepClone();
 
-            foreach (Tuple<int, TValueType> val in rhs.ValueEnumerator)
-                result[val.Item1] = OpSubtract(result[val.Item1], val.Item2);
+            foreach (var (item1, item2) in rhs.ValueEnumerator)
+                result[item1] = OpSubtract(result[item1], item2);
 
             return result;
         }
@@ -145,8 +130,8 @@ namespace MathLib.Matrices
 
             SparseVector<TValueType> result = (SparseVector<TValueType>)lhs.DeepClone();
 
-            foreach (Tuple<int, TValueType> val in rhs.ValueEnumerator)
-                result[val.Item1] = OpAdd(result[val.Item1], val.Item2);
+            foreach (var (position, value) in rhs.ValueEnumerator)
+                result[position] = OpAdd(result[position], value);
 
             return result;
         }
@@ -163,7 +148,7 @@ namespace MathLib.Matrices
 
             SparseVector<TValueType> result = (SparseVector<TValueType>)arg.DeepClone();
 
-            for (int i = 0; i < result.Values.Count(); i++)
+            for (int i = 0; i < result.Values.Count; i++)
                 result.Values[i] = OpNegate(result.Values[i]);
 
             return result;
@@ -204,7 +189,7 @@ namespace MathLib.Matrices
 
             SparseVector<TValueType> result = (SparseVector<TValueType>)lhs.DeepClone();
 
-            for (int i = 0; i < result.Values.Count(); i++)
+            for (int i = 0; i < result.Values.Count; i++)
                 result.Values[i] = OpMultiply(result.Values[i], rhs);
 
             return result;
@@ -251,7 +236,7 @@ namespace MathLib.Matrices
 
             SparseVector<TValueType> result = (SparseVector<TValueType>)lhs.DeepClone();
 
-            for (int i = 0; i < result.Values.Count(); i++)
+            for (int i = 0; i < result.Values.Count; i++)
                 result.Values[i] = OpDivide(result.Values[i], rhs);
 
             return result;

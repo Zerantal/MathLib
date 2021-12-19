@@ -1,34 +1,24 @@
-﻿using System.Diagnostics.Contracts;
-using System;
+﻿using System;
 
 namespace MathLib.Graph
 {
-    public struct GraphEdge : IEquatable<GraphEdge>
+    public readonly struct GraphEdge : IEquatable<GraphEdge>
     {
-        private int _firstVertex;
-        public int FirstVertex
-        {
-            get { return _firstVertex; }
-            private set { _firstVertex = value; }
-        }
+        public int FirstVertex { get; }
 
-        private int _secondVertex;
-        public int SecondVertex
-        {
-            get { return _secondVertex; }
-            private set { _secondVertex = value; }
-        }
+        public int SecondVertex { get; }
+
         public GraphEdge(int firstVertex, int secondVertex)
         {
-            _firstVertex = firstVertex;
-            _secondVertex = secondVertex;
+            FirstVertex = firstVertex;
+            SecondVertex = secondVertex;
         }
 
         #region IEquatable<GraphEdge> Members
 
         public bool Equals(GraphEdge other)
         {
-            return (_firstVertex == other.FirstVertex && _secondVertex == other.SecondVertex);            
+            return FirstVertex == other.FirstVertex && SecondVertex == other.SecondVertex;            
         }
 
         #endregion

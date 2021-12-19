@@ -1,8 +1,9 @@
-﻿using System.Diagnostics.Contracts;
+﻿
+// ReSharper disable UnusedMemberInSuper.Global
+// ReSharper disable UnusedMember.Global
 
 namespace MathLib.Matrices
 {
-    [ContractClass(typeof(IVectorContract<,>))]
     public interface IVector<TVector, TValue> where TVector : IVector<TVector, TValue>
     {
         VectorType Orientation { get; }

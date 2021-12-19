@@ -1,4 +1,5 @@
-﻿namespace MathLib.Matrices
+﻿// ReSharper disable UnusedMember.Global
+namespace MathLib.Matrices
 {
     public interface INumericVector
     {

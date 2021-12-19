@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Numerics;
-using System.Diagnostics.Contracts;
-
 using MathLib.Matrices;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable IdentifierTypo
 
 namespace MathLib.SignalAnalysis
 {
@@ -10,9 +10,8 @@ namespace MathLib.SignalAnalysis
     /// Routines for performing a fast fourier transform on data
     /// </summary>
     [CLSCompliant(false)]
-    static public class Fourier
+    public static class Fourier
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "FFT")]
         public static ComplexVector Fft(ComplexVector data)
         {
             // // Contract.Requires(data != null);
@@ -26,7 +25,6 @@ namespace MathLib.SignalAnalysis
             return transform;            
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "IFFT")]
         public static ComplexVector Ifft(ComplexVector data)
         {
             // // Contract.Requires(data != null);
@@ -41,8 +39,7 @@ namespace MathLib.SignalAnalysis
             return result;          
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "FFT")]
-        static public ComplexMatrix Fft2D(ComplexMatrix data)
+        public static ComplexMatrix Fft2D(ComplexMatrix data)
         {
             // // Contract.Requires(data != null);
             // // Contract.Requires(BasicMath.IsPowerOf2(data.Rows) && (BasicMath.IsPowerOf2(data.Columns)));
@@ -68,8 +65,7 @@ namespace MathLib.SignalAnalysis
             return transform;            
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "IFFT")]
-        static public ComplexMatrix Ifft2D(ComplexMatrix data)
+        public static ComplexMatrix Ifft2D(ComplexMatrix data)
         {
             // // Contract.Requires(data != null);
             // // Contract.Requires(BasicMath.IsPowerOf2(data.Rows) && (BasicMath.IsPowerOf2(data.Columns)));
@@ -111,7 +107,7 @@ namespace MathLib.SignalAnalysis
             // //Contract.Ensures(data != null);
 
             int n = data.Length;
-            int m = (int)(Math.Round(Math.Log(n, 2)));   // n = 2^m
+            int m = (int)Math.Round(Math.Log(n, 2));   // n = 2^m
 
             int i;
             int n1;
@@ -124,17 +120,16 @@ namespace MathLib.SignalAnalysis
                 n1 = n2;
                 while ( j >= n1 )
                 {
-                    j = j - n1;
-                    n1 = n1/2;
+                    j -= n1;
+                    n1 /= 2;
                 }
-                j = j + n1;
-                   
-                if (i < j)
-                {
-                    t = data[i];
-                    data[i] = data[j];
-                    data[j] = t;                    
-                }
+                j += n1;
+
+                if (i >= j) continue;
+
+                t = data[i];
+                data[i] = data[j];
+                data[j] = t;
             }
 
             n2 = 1;
@@ -142,7 +137,7 @@ namespace MathLib.SignalAnalysis
             for (i=0; i < m; i++)
             {
                 n1 = n2;
-                n2 = n2 + n2;
+                n2 += n2;
                 double e = -1 * dir * 6.283185307179586/n2;
                 double a = 0.0;
                                              
@@ -150,21 +145,22 @@ namespace MathLib.SignalAnalysis
                 {
                     double c = Math.Cos(a);
                     double s = Math.Sin(a);
-                    a = a + e;
+                    a += e;
 
                     int k;
-                    for (k=j; k < n; k=k+n2)
+                    for (k=j; k < n; k += n2)
                     {                                               
                         t = new Complex(c * data[k + n1].Real - s * data[k + n1].Imaginary, s * data[k + n1].Real + c * data[k + n1].Imaginary);
                         data[k + n1] = data[k] - t;
-                        data[k] = data[k] + t;                        
+                        data[k] += t;                        
                     }
                 }
             }
 
-            if (dir == -1)  // if do an inferse DFT
-                for (int z = 0; z < n; z++)
-                    data[z] = data[z] / n;        
+            if (dir != -1) return;
+
+            for (int z = 0; z < n; z++)
+                data[z] /= n;
         }
     }
 }

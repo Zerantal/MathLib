@@ -5,7 +5,7 @@ namespace MathLib.Evolution
 {
     [ContractClassFor(typeof(IEvolvableObject<>))]
 // ReSharper disable InconsistentNaming
-    abstract class IEvolvableObjectContract<T> : IEvolvableObject<T> where T : class, IEvolvableObject<T>
+internal abstract class IEvolvableObjectContract<T> : IEvolvableObject<T> where T : class, IEvolvableObject<T>
 // ReSharper restore InconsistentNaming
     {
         #region IEvolvableObject<T> Members

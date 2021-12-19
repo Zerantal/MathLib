@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Collections.Generic;
 
 namespace MathLib.Matrices
 {
@@ -14,7 +14,7 @@ namespace MathLib.Matrices
             // // Contract.Requires(rows < int.MaxValue);
         }        
 
-        public SparseMatrix(int rows, int columns, Tuple<int, int, TValueType>[] values)
+        public SparseMatrix(int rows, int columns, IEnumerable<Tuple<int, int, TValueType>> values)
             : base(rows, columns, values)
         {
             // // Contract.Requires(rows >= 1 && columns >= 1);

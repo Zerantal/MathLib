@@ -18,23 +18,23 @@ namespace MathLib.Matrices
             // // Contract.Requires(rows == 1 || columns == 1);            
         } 
 
-        public Vector(int dimension, VectorType orientation = VectorType.RowVector, TValueType initialValue = default(TValueType))
+        public Vector(int dimension, VectorType orientation = VectorType.RowVector, TValueType initialValue = default)
             : base(orientation == VectorType.RowVector ? 1 : dimension, orientation == VectorType.RowVector ? dimension : 1)
 
         {
             // // Contract.Requires(dimension >= 1);
 
             if (orientation == VectorType.ColumnVector)
-            {             
-                if (!initialValue.Equals(default(TValueType)))
-                    for (int r = 0; r < Rows; r++)
-                        ValuesData[r, 0] = initialValue;
+            {
+                if (initialValue.Equals(default(TValueType))) return;
+                for (int r = 0; r < Rows; r++)
+                    ValuesData[r, 0] = initialValue;
             }
             else
-            {                                
-                if (!initialValue.Equals(default(TValueType)))
-                    for (int c = 0; c < Columns; c++)
-                        ValuesData[0, c] = initialValue;
+            {
+                if (initialValue.Equals(default(TValueType))) return;
+                for (int c = 0; c < Columns; c++)
+                    ValuesData[0, c] = initialValue;
             }
         }
 
@@ -59,47 +59,24 @@ namespace MathLib.Matrices
 
         #endregion   
 
-        public new int Rows
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<int>() == 1 || Columns == 1);
-                return base.Rows;
-            }
-        }
-        
-        public new int Columns
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<int>() == 1 || Rows == 1);
-                return base.Columns;
-            }
-        }
+        public new int Rows =>
+            // //Contract.Ensures(// Contract.Result<int>() == 1 || Columns == 1);
+            base.Rows;
+
+        public new int Columns =>
+            // //Contract.Ensures(// Contract.Result<int>() == 1 || Rows == 1);
+            base.Columns;
 
 
         #region IVector<TValueType> Members
 
-        public VectorType Orientation
-        {
-            get
-            {
-                return Rows == 1 ? VectorType.RowVector : VectorType.ColumnVector;
-            }
-        }
+        public VectorType Orientation => Rows == 1 ? VectorType.RowVector : VectorType.ColumnVector;
 
-        public int Length
-        {
-            get {
-                return Rows == 1 ? Columns : Rows;
-            }
-        }
+        public int Length => Rows == 1 ? Columns : Rows;
 
         public TValueType this[int index]
         {
-            get {
-                return Rows == 1 ? ValuesData[0, index] : ValuesData[index, 0];
-            }
+            get => Rows == 1 ? ValuesData[0, index] : ValuesData[index, 0];
             set
             {
                 if (Rows == 1)

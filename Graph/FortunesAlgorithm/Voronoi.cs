@@ -1,3 +1,4 @@
+// ReSharper disable CommentTypo
 /*using System;
 using System.Collections;
 
@@ -8,12 +9,12 @@ namespace MathLib.Graph
 	public class VoronoiEdge
 	{
 		public Vector RightData, LeftData;
-		public Vector VVertexA = Fortune.VVUnkown, VVertexB = Fortune.VVUnkown;
+		public Vector VVertexA = Fortune.VVUnknown, VVertexB = Fortune.VVUnknown;
 		public void AddVertex(Vector V)
 		{
-			if(VVertexA==Fortune.VVUnkown)
+			if(VVertexA==Fortune.VVUnknown)
 				VVertexA = V;
-			else if(VVertexB==Fortune.VVUnkown)
+			else if(VVertexB==Fortune.VVUnknown)
 				VVertexB = V;
 			else throw new Exception("Tried to add third vertex!");
 		}
@@ -91,7 +92,7 @@ namespace MathLib.Graph
 			//3. Down
 			while(C.Right!=null)
 				C = C.Right;
-			return (VDataNode)C; // Cast statt 'as' damit eine Exception kommt
+			return (VDataNode)C; 
 		}
 		public static VDataNode RightDataNode(VDataNode Current)
 		{
@@ -117,7 +118,7 @@ namespace MathLib.Graph
 			//3. Down
 			while(C.Left!=null)
 				C = C.Left;
-			return (VDataNode)C; // Cast statt 'as' damit eine Exception kommt
+			return (VDataNode)C; 
 		}
 
 		public static VEdgeNode EdgeToRightDataNode(VDataNode Current)
@@ -173,8 +174,8 @@ namespace MathLib.Graph
 			VoronoiEdge VE = new VoronoiEdge();
 			VE.LeftData = ((VDataNode)C).DataPoint;
 			VE.RightData = e.DataPoint;
-			VE.VVertexA = Fortune.VVUnkown;
-			VE.VVertexB = Fortune.VVUnkown;
+			VE.VVertexA = Fortune.VVUnknown;
+			VE.VVertexB = Fortune.VVUnknown;
 			VG.Edges.Add(VE);
 
 			VNode SubRoot;
@@ -220,7 +221,7 @@ namespace MathLib.Graph
 			if(a==null || b.Parent==null || c==null || !a.DataPoint.Equals(e.NodeL.DataPoint) || !c.DataPoint.Equals(e.NodeR.DataPoint))
 			{
 				CircleCheckList = new VDataNode[]{};
-				return Root; // Abbruch da sich der Graph verändert hat
+				return Root; 
 			}
 			eu = (VEdgeNode)b.Parent;
 			CircleCheckList = new VDataNode[] {a,c};
@@ -229,7 +230,7 @@ namespace MathLib.Graph
 //			VNew[0] = Fortune.ParabolicCut(a.DataPoint[0],a.DataPoint[1],c.DataPoint[0],c.DataPoint[1],ys);
 //			VNew[1] = (ys + a.DataPoint[1])/2 - 1/(2*(ys-a.DataPoint[1]))*(VNew[0]-a.DataPoint[0])*(VNew[0]-a.DataPoint[0]);
 			VG.Vertizes.Add(VNew);
-			//2. Find out if a or c are in a distand part of the tree (the other is then b's sibling) and assign the new vertex
+			//2. Find out if a or c are in a distant part of the tree (the other is then b's sibling) and assign the new vertex
 			if(eu.Left==b) // c is sibling
 			{
 				eo = VNode.EdgeToRightDataNode(a);
@@ -383,7 +384,7 @@ namespace MathLib.Graph
 	public abstract class Fortune
 	{
 		public static readonly Vector VVInfinite = new Vector(double.PositiveInfinity, double.PositiveInfinity);
-		public static readonly Vector VVUnkown = new Vector(double.NaN, double.NaN);
+		public static readonly Vector VVUnknown = new Vector(double.NaN, double.NaN);
 		internal static double ParabolicCut(double x1, double y1, double x2, double y2, double ys)
 		{
 //			y1=-y1;
@@ -397,7 +398,7 @@ namespace MathLib.Graph
 //				if(y1<y2)
 //					return double.NegativeInfinity;
 //				return x;
-				throw new Exception("Identical datapoints are not allowed!");
+				throw new Exception("Identical dataPoints are not allowed!");
 			}
 
 			if(Math.Abs(y1-ys)<1e-10 && Math.Abs(y2-ys)<1e-10)
@@ -462,13 +463,13 @@ namespace MathLib.Graph
 
 			return new Vector(tx+alpha*ux,ty+alpha*uy);
 		}	
-		public static VoronoiGraph ComputeVoronoiGraph(IEnumerable Datapoints)
+		public static VoronoiGraph ComputeVoronoiGraph(IEnumerable dataPoints)
 		{
 			BinaryPriorityQueue PQ = new BinaryPriorityQueue();
 			Hashtable CurrentCircles = new Hashtable();
 			VoronoiGraph VG = new VoronoiGraph();
 			VNode RootNode = null;
-			foreach(Vector V in Datapoints)
+			foreach(Vector V in dataPoints)
 			{
 				PQ.Push(new VDataEvent(V));
 			}

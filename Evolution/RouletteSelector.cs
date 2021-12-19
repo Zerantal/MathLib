@@ -19,11 +19,11 @@ namespace MathLib.Evolution
                 double runningFitnessTotal = 0;                
 
                 double r = StaticRandom.NextDouble();
-                for (int j = 0; j < populationFitness.Count(); j++)
+                foreach (var (solution, fitness) in populationFitness)
                 {
-                    runningFitnessTotal += populationFitness[j].Item2;
+                    runningFitnessTotal += fitness;
                     if (runningFitnessTotal < r) continue;
-                    parent = populationFitness[j].Item1;                        
+                    parent = solution;                        
                     break;
                 }                
                 

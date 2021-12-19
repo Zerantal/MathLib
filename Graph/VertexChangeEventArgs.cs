@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MathLib.Graph
 {
     public class VertexChangeEventArgs : EventArgs
     {
-        public int VertexId { get; private set; }
+        public int VertexId { get; }
 
         public VertexChangeEventArgs(int id)
         {

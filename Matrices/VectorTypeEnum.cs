@@ -13,5 +13,5 @@
         /// Column vector.
         /// </summary>
         ColumnVector
-    };
+    }
 }

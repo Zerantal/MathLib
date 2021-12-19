@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
-
 using MathLib.Statistics;
 
 namespace MathLib.Matrices
@@ -29,7 +27,7 @@ namespace MathLib.Matrices
         /// </summary>
         /// <param name="rows">The number of rows in the new matrix.</param>
         /// <param name="columns">The number of columns in the new matrix.</param>
-        /// <param name="initialValue">The value to initialiase all elements of the matrix to.</param>
+        /// <param name="initialValue">The value to initialise all elements of the matrix to.</param>
         /// <remarks>All values of the new matrix will be initialised to zero
         /// by default.</remarks>
         /// <exception cref="ArgumentException">Either the <paramref name="rows"/>

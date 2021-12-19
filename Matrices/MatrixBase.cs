@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedMemberInSuper.Global
 
 namespace MathLib.Matrices
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes"), Serializable]
-    [ContractClass(typeof(MatrixBaseContract<,,>))]
     public abstract class MatrixBase<TMatrixType, TVectorType, TValueType>
         where TMatrixType : MatrixBase<TMatrixType, TVectorType, TValueType>
         where TVectorType : TMatrixType, IVector<TVectorType, TValueType>
@@ -25,16 +25,15 @@ namespace MathLib.Matrices
             // //Contract.Ensures(Rows == rows);
             // //Contract.Ensures(Columns == columns);
 
-            _rows = rows;
-            _columns = columns;            
-        }        
+            Rows = rows;
+            Columns = columns;            
+        }
 
-        private int _rows;
-        private int _columns;
-        public int Rows { get { return _rows; } }
-        public int Columns { get { return _columns; } }
+        public int Rows { get; }
+        public int Columns { get; }
 
-        public bool IsSquare { get { return (Rows == Columns); } }
+        // ReSharper disable once UnusedMember.Global
+        public bool IsSquare => Rows == Columns;
 
         protected abstract TVectorType CreateVector(int rows, int columns);
         protected abstract TMatrixType CreateMatrix(int rows, int columns);
@@ -46,7 +45,7 @@ namespace MathLib.Matrices
         public abstract IEnumerable<TVectorType> RowEnumerator { get; }
         public abstract IEnumerable<TVectorType> ColumnEnumerator { get; }
         public abstract TMatrixType Transpose();
-        public abstract TMatrixType Repeat(int vertReps, int horizReps);
+        public abstract TMatrixType Repeat(int verticalRepetitions, int horizontalRepetitions);
         public abstract TValueType this[int row, int column] { get; set; }
         public abstract TVectorType AsVector();
         public abstract void CopyTo(TMatrixType destMatrix, int row, int col);

@@ -29,10 +29,7 @@ namespace MathLib.Matrices
 
         protected override SparseVector CreateVector(int rows, int columns)
         {
-            if (rows == 1)
-                return new SparseVector(columns, VectorType.RowVector);
-
-            return new SparseVector(rows, VectorType.ColumnVector);            
+            return rows == 1 ? new SparseVector(columns) : new SparseVector(rows, VectorType.ColumnVector);
         }
 
         protected override SparseMatrix CreateMatrix(int rows, int columns)

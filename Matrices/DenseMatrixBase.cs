@@ -26,7 +26,7 @@ namespace MathLib.Matrices
             // //Contract.Ensures(Rows == rows);
             // //Contract.Ensures(Columns == columns);
 
-            _values = new TValueType[rows,columns];
+            ValuesData = new TValueType[rows,columns];
         }
 
         internal DenseMatrixBase(int rows, int columns, TValueType[,] values) : base(rows, columns)
@@ -37,7 +37,7 @@ namespace MathLib.Matrices
             // //Contract.Ensures(Rows == rows);
             // //Contract.Ensures(Columns == columns);
       
-            _values = values;            
+            ValuesData = values;            
         }
 
         protected DenseMatrixBase(int rows, int columns, TValueType initialValue) : base(rows, columns)
@@ -47,12 +47,12 @@ namespace MathLib.Matrices
             // //Contract.Ensures(this.Columns == columns);
             // //Contract.Ensures(this.Rows == rows);
             
-            _values = new TValueType[Rows,Columns];
+            ValuesData = new TValueType[Rows,Columns];
 
-            if (!initialValue.Equals(default(TValueType)))
-                for (int r = 0; r < Rows; r++)
-                    for (int c = 0; c < Columns; c++)
-                        ValuesData[r, c] = initialValue;
+            if (initialValue.Equals(default(TValueType))) return;
+            for (int r = 0; r < Rows; r++)
+            for (int c = 0; c < Columns; c++)
+                ValuesData[r, c] = initialValue;
         }
 
         protected DenseMatrixBase(TValueType[,] values) : base(values.GetLength(0), values.GetLength(1))
@@ -60,7 +60,7 @@ namespace MathLib.Matrices
             // // Contract.Requires(values != null);
             // // Contract.Requires(values.GetLength(0) > 0 && values.GetLength(1) > 0);
             
-            _values = new TValueType[Rows,Columns];
+            ValuesData = new TValueType[Rows,Columns];
 
             Array.Copy(values, ValuesData, values.Length);
         }
@@ -104,12 +104,9 @@ namespace MathLib.Matrices
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-                return false;
-
             TMatrixType m = obj as TMatrixType;
 
-            if ((Object) m == null)
+            if (m == null)
                 return false;
 
             if (Rows != m.Rows || Columns != m.Columns)
@@ -117,7 +114,7 @@ namespace MathLib.Matrices
 
             for (int r = 0; r < Rows; r++)
                 for (int c = 0; c < Columns; c++)
-                    if (!(ValuesData[r, c].Equals(m.ValuesData[r, c])))
+                    if (!ValuesData[r, c].Equals(m.ValuesData[r, c]))
                         return false;
 
             return true;
@@ -133,7 +130,7 @@ namespace MathLib.Matrices
 
             for (int r = 0; r < Rows; r++)
                 for (int c = 0; c < Columns; c++)
-                    if (!(ValuesData[r, c].Equals(m.ValuesData[r, c])))
+                    if (!ValuesData[r, c].Equals(m.ValuesData[r, c]))
                         return false;
 
             return true;
@@ -168,8 +165,8 @@ namespace MathLib.Matrices
 
         public override TValueType this[int row, int column]
         {
-            get { return ValuesData[row, column]; }
-            set { ValuesData[row, column] = value; }
+            get => ValuesData[row, column];
+            set => ValuesData[row, column] = value;
         }
 
         public override TVectorType GetRow(int row)
@@ -194,18 +191,14 @@ namespace MathLib.Matrices
 
         public override void SetRow(int row, TVectorType rowVector)
         {
-            int r = row;            
-
             for (int c = 0; c < Columns; c++)
-                ValuesData[r, c] = rowVector.ValuesData[0, c];
+                ValuesData[row, c] = rowVector.ValuesData[0, c];
         }
 
         public override void SetColumn(int column, TVectorType columnVector)
         {
-            int c = column;            
-
             for (int r = 0; r < Columns; r++)
-                ValuesData[r, c] = columnVector.ValuesData[r, 0];
+                ValuesData[r, column] = columnVector.ValuesData[r, 0];
         }
 
         public override TMatrixType Transpose()
@@ -219,9 +212,9 @@ namespace MathLib.Matrices
             return result;
         }
 
-        public override TMatrixType Repeat(int vertReps, int horizReps)
+        public override TMatrixType Repeat(int verticalRepetitions, int horizontalRepetitions)
         {
-            TMatrixType result = CreateMatrix(vertReps*Rows, horizReps*Columns);
+            TMatrixType result = CreateMatrix(verticalRepetitions*Rows, horizontalRepetitions*Columns);
             
             for (int r = 0; r < Rows; r++)
             {
@@ -245,7 +238,7 @@ namespace MathLib.Matrices
         {
             TVectorType retVec = CreateVector(Rows, Columns);
 
-            retVec._values = ValuesData;                 
+            retVec.ValuesData = ValuesData;                 
 
             return retVec;
         }
@@ -272,15 +265,7 @@ namespace MathLib.Matrices
 
         #region internal methods / properties
 
-        private TValueType[,] _values;
-        protected internal TValueType[,] ValuesData
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<TValueType[,]>() != null);
-                return _values;
-            }
-        }
+        protected internal TValueType[,] ValuesData { get; private set; }
 
         #endregion
 
@@ -405,7 +390,7 @@ namespace MathLib.Matrices
             // // Contract.Requires(lhs != null);
 
             TMatrixType result = lhs.CreateMatrix(lhs.Rows, lhs.Columns);
-            result._values = new TValueType[result.Rows,result.Columns];
+            result.ValuesData = new TValueType[result.Rows,result.Columns];
 
             for (int r = 0; r < lhs.Rows; r++)
                 for (int c = 0; c < lhs.Columns; c++)
@@ -423,7 +408,6 @@ namespace MathLib.Matrices
         public virtual TMatrixType DeepClone()
         {
             Type t = typeof (TValueType);
-            IDeepCloneable<TValueType> element;
             TMatrixType clone = CreateMatrix(Rows, Columns);
 
             if (t.IsValueType)
@@ -437,8 +421,8 @@ namespace MathLib.Matrices
                 for (int r = 0; r < Rows; r++)
                     for (int c = 0; c < Columns; c++)
                     {
-                        element = ValuesData[r, c] as IDeepCloneable<TValueType>;
-                        // Contract.Assume(element != null);
+                        var element = ValuesData[r, c] as IDeepCloneable<TValueType>;
+                        Contract.Assume(element != null);
                         clone.ValuesData[r, c] = element.DeepClone();
                     }
                        

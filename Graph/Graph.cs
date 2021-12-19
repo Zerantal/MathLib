@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -73,7 +72,7 @@ namespace MathLib.Graph
 
             // remove all edges to and from vertex
             List<int> edgesToRemove =
-                _edges.Where(e => (e.Value.FirstVertex == vertexId || e.Value.SecondVertex == vertexId)).Select(
+                _edges.Where(e => e.Value.FirstVertex == vertexId || e.Value.SecondVertex == vertexId).Select(
                     kvp => kvp.Key).ToList();
             foreach (int e in edgesToRemove)
             {
@@ -142,8 +141,7 @@ namespace MathLib.Graph
 
         public bool TryAddEdge(GraphEdge edge)
         {
-            int edgeId;
-            return TryAddEdge(edge, out edgeId);
+            return TryAddEdge(edge, out _);
         }
 
         public bool TryAddEdge(GraphEdge edge, out int edgeId)
@@ -175,32 +173,28 @@ namespace MathLib.Graph
         {
             EventHandler<VertexChangeEventArgs> handler = VertexAddedEvent;
 
-            if (handler != null)
-                handler(this, e);            
+            handler?.Invoke(this, e);
         }
 
         protected void OnVertexRemoveEvent(VertexChangeEventArgs e)
         {
             EventHandler<VertexChangeEventArgs> handler = VertexRemovedEvent;
 
-            if (handler != null)
-                handler(this, e);
+            handler?.Invoke(this, e);
         }
 
         protected void OnEdgeAddedEvent(EdgeChangeEventArgs e)
         {
             EventHandler<EdgeChangeEventArgs> handler = EdgeAddedEvent;
 
-            if (handler != null)
-                handler(this, e);
+            handler?.Invoke(this, e);
         }
 
         protected void OnEdgeRemovedEvent(EdgeChangeEventArgs e)
         {
             EventHandler<EdgeChangeEventArgs> handler = EdgeRemovedEvent;
 
-            if (handler != null)
-                handler(this, e);
+            handler?.Invoke(this, e);
         }
         
         public ICollection<int> GetVertexList()
@@ -216,9 +210,11 @@ namespace MathLib.Graph
             return new List<int>(_edges.Keys);
         }
 
-        public int EdgeCount { get { return _edges.Count(); } }
-        public int VertexCount { get { return _vertices.Count(); } }
-        
+        // ReSharper disable once UnusedMember.Global
+        public int EdgeCount => _edges.Count;
+        // ReSharper disable once UnusedMember.Global
+        public int VertexCount => _vertices.Count;
+
         [Pure]
         public bool ContainsEdge(int edgeId)
         {
@@ -244,7 +240,7 @@ namespace MathLib.Graph
         {
             StringBuilder str = new StringBuilder();
 
-            if (_edges.Count() == 0)
+            if (!_edges.Any())
                 return "{}";
 
             str.Append("{ ");
@@ -260,6 +256,7 @@ namespace MathLib.Graph
             return str.ToString();            
         }             
 
+        // ReSharper disable once UnusedMember.Global
         public string ToStringWithVertexSet()
         {
             StringBuilder str = new StringBuilder();
@@ -278,7 +275,7 @@ namespace MathLib.Graph
                 str.Append(" }, ");
             }
 
-            if (_edges.Count() == 0)
+            if (_edges.Count == 0)
                 str.Append("{}");
             else
             {

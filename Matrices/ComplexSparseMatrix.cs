@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
-using System.Diagnostics.Contracts;
+// ReSharper disable UnusedMember.Global
 
 namespace MathLib.Matrices
 {
@@ -12,7 +13,7 @@ namespace MathLib.Matrices
             // // Contract.Requires(rows < int.MaxValue);
         }        
 
-        public ComplexSparseMatrix(int rows, int columns, Tuple<int, int, Complex>[] values)
+        public ComplexSparseMatrix(int rows, int columns, IEnumerable<Tuple<int, int, Complex>> values)
             : base(rows, columns, values)
         {
             // // Contract.Requires(rows >= 1 && columns >= 1);
@@ -26,10 +27,7 @@ namespace MathLib.Matrices
 
         protected override ComplexSparseVector CreateVector(int rows, int columns)
         {
-            if (rows == 1)            
-                return new ComplexSparseVector(columns, VectorType.RowVector);
-            
-            return new ComplexSparseVector(rows, VectorType.ColumnVector);
+            return rows == 1 ? new ComplexSparseVector(columns, VectorType.RowVector) : new ComplexSparseVector(rows, VectorType.ColumnVector);
         }
 
         protected override ComplexSparseMatrix CreateMatrix(int rows, int columns)

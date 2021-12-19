@@ -1,11 +1,8 @@
-﻿using System.Diagnostics.Contracts;
-
-namespace MathLib.Evolution
+﻿namespace MathLib.Evolution
 {
-    [ContractClass(typeof(IChromosomeContract<>))]
-    public interface IChromosome<TChrom> where TChrom : class, IChromosome<TChrom>
+    public interface IChromosome<TChromosome> where TChromosome : class, IChromosome<TChromosome>
     {
-        TChrom Crossover(TChrom extraChromosome);
+        TChromosome Crossover(TChromosome extraChromosome);
 
         void Mutate();
     }

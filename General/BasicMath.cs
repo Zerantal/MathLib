@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics.Contracts;
-using System.Diagnostics.CodeAnalysis;
+﻿
+// ReSharper disable UnusedMember.Global
 
-namespace MathLib
+namespace MathLib.General
 {
     /// <summary>
     /// Basic math routines
     /// </summary>
-    static public class BasicMath
+    // ReSharper disable once UnusedMember.Global
+    public static class BasicMath
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "n"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Sqr")]
-        [ExcludeFromCodeCoverage]
-        static public double Sqr(double n)
+        public static double Sqr(double n)
         {
             return n * n;
         }
 
-        [Pure()]
-        [ExcludeFromCodeCoverage]
-        static public bool IsPowerOf2(int arg)
+        public static bool IsPowerOf2(int arg)
         {
             // // Contract.Requires(arg >= 0);
             return (arg & (arg - 1)) == 0;

@@ -4,30 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics.Contracts;
 using Util;
+// ReSharper disable UnusedMember.Global
 
 namespace MathLib.Matrices
 {
-    //[ContractVerification(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes"), Serializable]
     public abstract class SparseMatrixBase<TMatrixType, TVectorType, TValueType>
         : MatrixBase<TMatrixType, TVectorType, TValueType>, IDeepCloneable<TMatrixType>
         where TMatrixType : SparseMatrixBase<TMatrixType, TVectorType, TValueType>
         where TVectorType : TMatrixType, IVector<TVectorType, TValueType>
     {
-        class MatrixElementComparer : IEqualityComparer<Tuple<int, int, TValueType>>
+        private class MatrixElementComparer : IEqualityComparer<Tuple<int, int, TValueType>>
         {
             #region IEqualityComparer<Tuple<int,int,TValueType>> Members
 
             bool IEqualityComparer<Tuple<int, int, TValueType>>.Equals(Tuple<int, int, TValueType> x, Tuple<int, int, TValueType> y)
             {
-                // Contract.Assume(x != null && y != null);              
-                return (x.Item1 == y.Item1 && x.Item2 == y.Item2);
+                Contract.Assert(x != null && y != null);              
+
+                var (item1, item2, _) = x;
+                var (i, item3, _) = y;
+                return item1 == i && item2 == item3;
             }
 
             int IEqualityComparer<Tuple<int, int, TValueType>>.GetHashCode(Tuple<int, int, TValueType> obj)
             {
                 // Contract.Assume(obj != null);
-                return ~obj.Item1 ^ obj.Item2;
+                var (item1, item2, _) = obj;
+                return ~item1 ^ item2;
             }
 
             #endregion
@@ -92,19 +95,19 @@ namespace MathLib.Matrices
             var sortedValues = values.OrderBy(t => t.Item1).ThenBy(t => t.Item2);            
             
             // remove duplicate entries (if any)
-            var valuesWithoutDups = sortedValues.Distinct(new MatrixElementComparer());
+            var valuesWithoutDuplicates = sortedValues.Distinct(new MatrixElementComparer());
 
             // remove zero entries from Tuple array
-            var finalValueList = valuesWithoutDups.Where(t => !t.Item3.Equals(default(TValueType))).ToArray();                   
+            var finalValueList = valuesWithoutDuplicates.Where(t => !t.Item3.Equals(default(TValueType))).ToArray();                   
             
             var valList = new List<TValueType>();
             var colIndexList = new List<int>();
             var rowPtrList = new List<int>(Rows + 1);
-            foreach (Tuple<int, int, TValueType> t in finalValueList)
+            foreach (var (_, position, value) in finalValueList)
             {
                 // Contract.Assume(t != null);
-                valList.Add(t.Item3);
-                colIndexList.Add(t.Item2);
+                valList.Add(value);
+                colIndexList.Add(position);
             }            
             // Contract.Assert(valList.Count == colIndexList.Count);
             // may not be the most efficient way of getting row pointers ;)
@@ -114,7 +117,7 @@ namespace MathLib.Matrices
             {
                 // count number of values in row
                 int r1 = r;
-                rowLengths[r] = finalValueList.Where(t => t.Item1 == (r1)).Count();
+                rowLengths[r] = finalValueList.Count(t => t.Item1 == r1);
             }
 
             for (int r = 0; r < Rows; r++)
@@ -142,13 +145,7 @@ namespace MathLib.Matrices
             }
         }
 
-        public int NumberOfNonzeroElements 
-        { 
-            get
-            {
-                return Values.Count();                
-            }
-        }
+        public int NumberOfNonzeroElements => Values.Count;
 
         #endregion
 
@@ -190,7 +187,6 @@ namespace MathLib.Matrices
                     retVector.Values.Add(Values[valueIdx]);
                     rowPtrCounter++;
                     retVector.ColIndices.Add(0);
-                    continue;
                 }
                 retVector.RowPtrs[r+1] = rowPtrCounter;
             }
@@ -209,11 +205,13 @@ namespace MathLib.Matrices
 
         public override IEnumerable<TVectorType> RowEnumerator
         {
+            // ReSharper disable once ArrangeAccessorOwnerBody
             get { throw new NotImplementedException(); }
         }
 
         public override IEnumerable<TVectorType> ColumnEnumerator
         {
+            // ReSharper disable once ArrangeAccessorOwnerBody
             get { throw new NotImplementedException(); }
         }
 
@@ -222,7 +220,7 @@ namespace MathLib.Matrices
             throw new NotImplementedException();
         }
 
-        public override TMatrixType Repeat(int vertReps, int horizReps)
+        public override TMatrixType Repeat(int verticalRepetitions, int horizontalRepetitions)
         {
             throw new NotImplementedException();
         }
@@ -238,7 +236,7 @@ namespace MathLib.Matrices
                     if (ColIndices[i] == column)
                         return Values[i];
 
-                return default(TValueType);                
+                return default;                
             }
             // four scenarios have to be considered in the setter:
             // i) replacing a nonzero element with a zero
@@ -251,15 +249,14 @@ namespace MathLib.Matrices
                 int valIdxOfNextRow = RowPtrs[row + 1];
                 int i;
                 bool elementAlreadyExists = false;
-                int effectiveColumn = column;
                 for (i = valIdxOfRow; i < valIdxOfNextRow; i++)
                 {
-                    if (ColIndices[i] == effectiveColumn)   // replace existing non zero element of matrix
+                    if (ColIndices[i] == column)   // replace existing non zero element of matrix
                     {
                         elementAlreadyExists = true;
                         break;
                     }
-                    if (ColIndices[i] > effectiveColumn)  // insert new non zero element into matrix
+                    if (ColIndices[i] > column)  // insert new non zero element into matrix
                     {
                         break;
                     }
@@ -270,24 +267,22 @@ namespace MathLib.Matrices
                     {
                         Values.RemoveAt(i);
                         ColIndices.RemoveAt(i);
-                        for (int r = row + 1; r < RowPtrs.Count(); r++)
+                        for (int r = row + 1; r < RowPtrs.Count; r++)
                             RowPtrs[r]--;                        
                     }
                     else // iii)
                     {
                         Values[i] = value;
-                        ColIndices[i] = effectiveColumn;
+                        ColIndices[i] = column;
                     }
                 }
                 else
                 {
-                    if (!Equals(value, default(TValueType))) // ii)
-                    {
-                        Values.Insert(i, value);
-                        ColIndices.Insert(i, effectiveColumn);
-                        for (int r = row + 1; r < RowPtrs.Count(); r++)
-                            RowPtrs[r]++;                        
-                    }
+                    if (Equals(value, default(TValueType))) return;
+                    Values.Insert(i, value);
+                    ColIndices.Insert(i, column);
+                    for (int r = row + 1; r < RowPtrs.Count; r++)
+                        RowPtrs[r]++;
                 }
             }
         }
@@ -343,10 +338,9 @@ namespace MathLib.Matrices
             if (NumberOfNonzeroElements != matrix.NumberOfNonzeroElements)
                 return false;
 
-            for (int i = 0; i < Values.Count(); i++)
+            if (Values.Where((t, i) => !t.Equals(matrix.Values[i]) || ColIndices[i] != matrix.ColIndices[i]).Any())
             {
-                if (!(Values[i].Equals(matrix.Values[i])) || (ColIndices[i] != matrix.ColIndices[i]))
-                    return false;
+                return false;
             }
 
             for (int r = 0; r <= Rows; r++)
@@ -365,7 +359,7 @@ namespace MathLib.Matrices
                 {
                     int column = ColIndices[valIdx];
                     if (column >= 0 && column < Columns)
-                        str.AppendLine("(" + (rIdx) + ", " + column + ", " + Values[valIdx] + ")");
+                        str.AppendLine("(" + rIdx + ", " + column + ", " + Values[valIdx] + ")");
                 }
             }
 
@@ -408,13 +402,12 @@ namespace MathLib.Matrices
 
             TMatrixType result = lhs.DeepClone();
 
-            foreach (Tuple<int, int, TValueType> val in rhs.ValueEnumerator)
-                result[val.Item1, val.Item2] = OpSubtract(result[val.Item1, val.Item2], val.Item3);
+            foreach (var (row, column, value) in rhs.ValueEnumerator)
+                result[row, column] = OpSubtract(result[row, column], value);
 
             return result;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes")]
         public static TMatrixType Subtract(SparseMatrixBase<TMatrixType, TVectorType, TValueType> lhs, SparseMatrixBase<TMatrixType, TVectorType, TValueType> rhs) { return lhs - rhs; }
 
         public static TMatrixType operator +(SparseMatrixBase<TMatrixType, TVectorType, TValueType> lhs, SparseMatrixBase<TMatrixType, TVectorType, TValueType> rhs)
@@ -424,13 +417,12 @@ namespace MathLib.Matrices
 
             TMatrixType result = lhs.DeepClone();
 
-            foreach (Tuple<int, int, TValueType> val in rhs.ValueEnumerator)
-                result[val.Item1, val.Item2] = OpAdd(result[val.Item1, val.Item2], val.Item3);
+            foreach (var (row, column, value) in rhs.ValueEnumerator)
+                result[row, column] = OpAdd(result[row, column], value);
 
             return result;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes")]
         public static TMatrixType Add(SparseMatrixBase<TMatrixType, TVectorType, TValueType> lhs, SparseMatrixBase<TMatrixType, TVectorType, TValueType> rhs) { return lhs + rhs; }
 
         public static TMatrixType operator -(SparseMatrixBase<TMatrixType, TVectorType, TValueType> arg)
@@ -439,7 +431,7 @@ namespace MathLib.Matrices
 
             TMatrixType result = arg.DeepClone();
 
-            for (int i = 0; i < result.Values.Count(); i++)
+            for (int i = 0; i < result.Values.Count; i++)
                 result.Values[i] = OpNegate(result.Values[i]);
 
             return result;
@@ -474,7 +466,7 @@ namespace MathLib.Matrices
 
             TMatrixType result = lhs.DeepClone();
 
-            for (int i = 0; i < result.Values.Count(); i++)
+            for (int i = 0; i < result.Values.Count; i++)
                 result.Values[i] = OpMultiply(result.Values[i], rhs);
 
             return result;
@@ -507,7 +499,7 @@ namespace MathLib.Matrices
 
             TMatrixType result = lhs.DeepClone();
 
-            for (int i = 0; i < result.Values.Count(); i++)
+            for (int i = 0; i < result.Values.Count; i++)
                 result.Values[i] = OpDivide(result.Values[i], rhs);
 
             return result;

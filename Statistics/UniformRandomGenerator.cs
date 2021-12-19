@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics.Contracts;
-
-using Util;
+﻿using Util;
 
 namespace MathLib.Statistics
 {
     public class UniformRandomGenerator : INumberGenerator
     {
-        readonly double _min;
-        readonly double _range;
+        private readonly double _min;
+        private readonly double _range;
         private readonly double _max;
 
         public UniformRandomGenerator(double min, double max)
@@ -23,14 +18,7 @@ namespace MathLib.Statistics
             _range = max - min;
         }
 
-        public double Number
-        {
-            get 
-            {
-                return (StaticRandom.NextDouble()*_range) + _min;                 
-            }
-        }
-
+        public double Number => StaticRandom.NextDouble()*_range + _min;
 
 
         #region IDeepCloneable<INumberGenerator> Members

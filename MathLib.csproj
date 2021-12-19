@@ -113,8 +113,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="mscorlib.Behaviors, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="mscorlib.Moles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0ae41878053f6703, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
@@ -130,14 +128,12 @@
     <Compile Include="Evolution\FixedLengthChromosomeContract.cs" />
     <Compile Include="Evolution\GaObjectContract.cs" />
     <Compile Include="Evolution\GraphChromosome.cs" />
-    <Compile Include="Evolution\IChromosomeContract.cs" />
     <Compile Include="Evolution\IFitnessSelector.cs" />
-    <Compile Include="Evolution\IFitnessSelectorContract.cs" />
     <Compile Include="Evolution\IMutator.cs" />
     <Compile Include="Evolution\FixedLengthChromosome.cs" />
     <Compile Include="Evolution\GeneticAlgorithm.cs" />
     <Compile Include="Evolution\IChromosome.cs" />
-    <Compile Include="Evolution\ESObject.cs" />
+    <Compile Include="Evolution\EsObject.cs" />
     <Compile Include="Evolution\EvolutionEngine.cs" />
     <Compile Include="Evolution\GaObject.cs" />
     <Compile Include="Evolution\IEvolvableObject.cs" />
@@ -164,9 +160,7 @@
     <Compile Include="Matrices\INumericMatrix.cs" />
     <Compile Include="Matrices\INumericVector.cs" />
     <Compile Include="Matrices\IVector.cs" />
-    <Compile Include="Matrices\IVectorContract.cs" />
     <Compile Include="Matrices\MatrixBase.cs" />
-    <Compile Include="Matrices\MatrixBaseContract.cs" />
     <Compile Include="Matrices\Matrix.cs" />
     <Compile Include="Matrices\MatrixExtensions.cs" />
     <Compile Include="Matrices\SizeMismatchException.cs" />
@@ -174,7 +168,6 @@
     <Compile Include="SignalAnalysis\Fourier.cs" />
     <Compile Include="General\BasicMath.cs" />
     <Compile Include="GenericOperators.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MathLibException.cs" />
     <Compile Include="Matrices\VectorTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -228,9 +221,6 @@
       <Project>{1E22CAC4-8E90-4DD7-A754-6D1EF0845230}</Project>
       <Name>Util</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

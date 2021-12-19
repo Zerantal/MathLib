@@ -1,5 +1,5 @@
-﻿using System.Diagnostics.Contracts;
-
+﻿using System;
+using System.Collections.Generic;
 using Util;
 
 namespace MathLib.Evolution
@@ -7,7 +7,7 @@ namespace MathLib.Evolution
     public class ValueChromosome<T> : FixedLengthChromosome<T, ValueChromosome<T>> 
         where T : class,  IMutator, IDeepCloneable<T>
     {
-        public ValueChromosome(T[] initialValues) : base(initialValues)
+        public ValueChromosome(IReadOnlyList<T> initialValues) : base(initialValues)
         {
             // // Contract.Requires(initialValues != null);
             // // Contract.Requires(initialValues.Length > 0);
@@ -36,7 +36,7 @@ namespace MathLib.Evolution
 
             var childGenes = new T[extraChromosome.Length];
 
-            int pt1, pt2;   // crossover points            
+            int pt1;   // crossover points            
 
             switch (GeneticAlgorithm.CrossoverType)
             {
@@ -49,12 +49,10 @@ namespace MathLib.Evolution
                     break;
                 case CrossoverMethod.TwoPoint:
                     pt1 = StaticRandom.Next(Length);
-                    pt2 = StaticRandom.Next(Length);
+                    var pt2 = StaticRandom.Next(Length);   // crossover points            
                     if (pt2 < pt1)  // swap values
                     {
-                        var tmp = pt1;
-                        pt1 = pt2;
-                        pt2 = tmp;
+                        (pt1, pt2) = (pt2, pt1);
                     }
                     for (var i = 0; i < pt1; i++)
                         childGenes[i] = this[i].DeepClone();
@@ -70,6 +68,8 @@ namespace MathLib.Evolution
                         else
                             childGenes[i] = this[i].DeepClone();
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             return CreateChromosome(childGenes);

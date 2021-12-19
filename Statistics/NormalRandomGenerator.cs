@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 using Util;
 
 namespace MathLib.Statistics
@@ -25,7 +22,7 @@ namespace MathLib.Statistics
                 double u2 = StaticRandom.NextDouble();
 
                 double z0 = Math.Sqrt(-2 * Math.Log(u1)) * Math.Cos(2 * Math.PI * u2);
-                return (_mean + z0 * _standardDev);
+                return _mean + z0 * _standardDev;
             }
 
 

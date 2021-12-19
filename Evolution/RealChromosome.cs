@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Diagnostics.Contracts;
 
 using Util;
 
@@ -26,37 +27,22 @@ namespace MathLib.Evolution
             _genes = new double[length];
         }
 
-        public int Length
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<int>() > 0);
-                return _genes.Length;
-            }
-        }
+        public int Length => _genes.Length;
 
         public double this[int index]
         {
-            get
-            {
-                // // Contract.Requires(index >= 0 && index <Length);
-                return _genes[index];
-            }
+            get => _genes[index];
 
-            set
-            {
-                // // Contract.Requires(index >= 0 && index < Length);                
-                _genes[index] = value;
-            }
+            set => _genes[index] = value;
         }
 
         public RealChromosome Crossover(RealChromosome extraChromosome)
         {
             // Contract.Assume(extraChromosome.Length == Length);      // can't be proven
 
-            var childChromosome = new RealChromosome(Length);            
+            var childChromosome = new RealChromosome(Length);
 
-            int pt1, pt2;   // crossover points            
+            int pt1;   // crossover points            
 
             switch (GeneticAlgorithm.CrossoverType)
             {
@@ -69,12 +55,10 @@ namespace MathLib.Evolution
                     break;
                 case CrossoverMethod.TwoPoint:
                     pt1 = StaticRandom.Next(_genes.Length);
-                    pt2 = StaticRandom.Next(_genes.Length);
+                    var pt2 = StaticRandom.Next(_genes.Length);   // crossover points            
                     if (pt2 < pt1)  // swap values
                     {
-                        int tmp = pt1;
-                        pt1 = pt2;
-                        pt2 = tmp;
+                        (pt1, pt2) = (pt2, pt1);
                     }
                     for (int i = 0; i < pt1; i++)
                         childChromosome._genes[i] = _genes[i];
@@ -90,6 +74,8 @@ namespace MathLib.Evolution
                         else
                             childChromosome._genes[i] = _genes[i];
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             return childChromosome;            

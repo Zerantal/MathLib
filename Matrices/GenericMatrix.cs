@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace MathLib.Matrices
 {
@@ -15,7 +14,7 @@ namespace MathLib.Matrices
             // // Contract.Requires(columns > 0);            
         }
 
-        public Matrix(int rows, int columns, TValueType initialValue = default(TValueType)) :
+        public Matrix(int rows, int columns, TValueType initialValue = default) :
             base(rows, columns, initialValue) 
         {
             // // Contract.Requires(rows> 0);

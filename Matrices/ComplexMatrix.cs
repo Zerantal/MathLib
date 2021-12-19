@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Diagnostics.Contracts;
-
 using MathLib.Statistics;
 
 namespace MathLib.Matrices
@@ -24,7 +22,7 @@ namespace MathLib.Matrices
         ///  or <paramref name="columns"/> parameter passed to the constructor is a 
         ///  zero or negative number.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
-        public ComplexMatrix(int rows, int columns, Complex initialValue = default(Complex))
+        public ComplexMatrix(int rows, int columns, Complex initialValue = default)
             : base(rows, columns, initialValue)
         {
             // // Contract.Requires(rows > 0 && columns > 0);

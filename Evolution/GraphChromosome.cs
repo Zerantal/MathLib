@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics.Contracts;
-
 using MathLib.Statistics;
 using MathLib.Graph;
 using Util;
+// ReSharper disable StaticMemberInGenericType
 
 namespace MathLib.Evolution
 {
     public class GraphChromosome<TGraph> : IChromosome<GraphChromosome<TGraph>>
         where TGraph : Graph.Graph, IMutator, new()
     {
-        static private readonly NormalRandomGenerator Random;
+        private static readonly NormalRandomGenerator Random;
         private static List<int> _vertexPool;           // available vertices to add from
         private static List<int> _immortalVertices;      // vertices that aren't subject to deletion
 
@@ -33,35 +32,25 @@ namespace MathLib.Evolution
             EdgeDeletionRate = 1;
         }
 
-        public TGraph ChromosomalGraph { get; private set; }
+        public TGraph ChromosomalGraph { get; }
 
-        static public double VertexAdditionRate { get; set; }
-        static public double VertexDeletionRate { get; set; }
-        static public double EdgeAdditionRate { get; set; }
-        static public double EdgeDeletionRate { get; set; }
+        public static double VertexAdditionRate { get; set; }
+        public static double VertexDeletionRate { get; set; }
+        public static double EdgeAdditionRate { get; set; }
+        public static double EdgeDeletionRate { get; set; }
+        // ReSharper disable once UnusedMember.Global
         public static List<int> VertexPool
         {
-            set
-            {
-                if (value == null)
-                    _vertexPool = null;
-                else
-                    _vertexPool = new List<int>(value);
-            }
+            set => _vertexPool = value == null ? null : new List<int>(value);
         }
         public static List<int> ImmortalVertices
         {
-            set
-            {
-                if (value == null)
-                    _immortalVertices = null;
-                else
-                    _immortalVertices = new List<int>(value);
-            }
+            set => _immortalVertices = value == null ? null : new List<int>(value);
         }
 
         #region Implementation of IDeepCloneable<out IChromosome>
 
+        // ReSharper disable once UnusedMember.Global
         public GraphChromosome<TGraph> DeepClone()
         {
             return new GraphChromosome<TGraph>((TGraph)ChromosomalGraph.DeepClone());
@@ -81,6 +70,7 @@ namespace MathLib.Evolution
                     return SinglePointCrossover(extraGraph);                    
                 case CrossoverMethod.TwoPoint:
                     return TwoPointCrossover(extraGraph);
+                case CrossoverMethod.Uniform:
                 default:                
                     return UniformCrossover(extraGraph);                    
             }           
@@ -128,6 +118,8 @@ namespace MathLib.Evolution
             return new GraphChromosome<TGraph>(newGraph);
         }
 
+        // ReSharper disable once MemberCanBeMadeStatic.Local
+        // ReSharper disable once UnusedParameter.Local
         private GraphChromosome<TGraph> TwoPointCrossover(TGraph extraGraph)
         {
             throw new NotImplementedException();
@@ -154,19 +146,19 @@ namespace MathLib.Evolution
                     newGraph.AddVertex(v);
             }
 
-            if (edgeList1.Count > 0)
-            {                
+            if (edgeList1.Count <= 0) return new GraphChromosome<TGraph>(newGraph);
+            
             // add edges      
-                foreach (int edgeId in edgeList1.Take(edgeCrossoverPt))
-                    newGraph.TryAddEdge(edgeId, ChromosomalGraph.GetEdge(edgeId));
-                int lastEdgeLabel = edgeList1.ElementAt(edgeCrossoverPt);
-                foreach (int edgeId in edgeList2.TakeWhile(e => e >= lastEdgeLabel))
-                    newGraph.TryAddEdge(edgeId, extraGraph.GetEdge(edgeId));
-            }
+            foreach (int edgeId in edgeList1.Take(edgeCrossoverPt))
+                newGraph.TryAddEdge(edgeId, ChromosomalGraph.GetEdge(edgeId));
+            int lastEdgeLabel = edgeList1.ElementAt(edgeCrossoverPt);
+            foreach (int edgeId in edgeList2.TakeWhile(e => e >= lastEdgeLabel))
+                newGraph.TryAddEdge(edgeId, extraGraph.GetEdge(edgeId));
 
             return new GraphChromosome<TGraph>(newGraph);
         }
 
+        // ReSharper disable once UnusedMember.Global
         public bool IsCompatibleWith(GraphChromosome<TGraph> otherChromosome)
         {
             return true;
@@ -194,12 +186,12 @@ namespace MathLib.Evolution
         {
             int edgesToAdd = Convert.ToInt32(Random.Number * EdgeAdditionRate);
             List<int> vertices = new List<int>(ChromosomalGraph.GetVertexList());
-            if (edgesToAdd <= 0 || vertices.Count() <= 0) return;
+            if (edgesToAdd <= 0 || !vertices.Any()) return;
 
             for (int i = 0; i < edgesToAdd; i++)
             {
-                int v1 = vertices[StaticRandom.Next(vertices.Count())];
-                int v2 = vertices[StaticRandom.Next(vertices.Count())];
+                int v1 = vertices[StaticRandom.Next(vertices.Count)];
+                int v2 = vertices[StaticRandom.Next(vertices.Count)];
                 ChromosomalGraph.TryAddEdge(new GraphEdge(v1, v2));
             }
         }
@@ -208,13 +200,13 @@ namespace MathLib.Evolution
         {
             int verticesToRemove = Convert.ToInt32(Random.Number * VertexDeletionRate);
             List<int> vertices = new List<int>(ChromosomalGraph.GetVertexList());
-            if (verticesToRemove <= 0 || vertices.Count() <= 0) return;
+            if (verticesToRemove <= 0 || !vertices.Any()) return;
 
             for (int i = 0; i < verticesToRemove; i++)
             {
-                int v = StaticRandom.Next(vertices.Count());
+                int v = StaticRandom.Next(vertices.Count);
                 if (!_immortalVertices.Contains(v))
-                    ChromosomalGraph.RemoveVertex(vertices[StaticRandom.Next(vertices.Count())]);
+                    ChromosomalGraph.RemoveVertex(vertices[StaticRandom.Next(vertices.Count)]);
             }
         }
 
@@ -242,7 +234,7 @@ namespace MathLib.Evolution
         {
             int edgesToRemove = Convert.ToInt32(Random.Number * EdgeDeletionRate);
             List<int> edges = new List<int>(ChromosomalGraph.GetEdgeList());
-            if (edgesToRemove <= 0 || edges.Count() <= 0) return;
+            if (edgesToRemove <= 0 || !edges.Any()) return;
             
             for (int i = 0; i < edgesToRemove; i++)
             {
@@ -252,12 +244,5 @@ namespace MathLib.Evolution
         }
 
         #endregion
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            // Contract.Invariant(Random != null);
-            // Contract.Invariant(ChromosomalGraph != null);
-        }
     }
 }

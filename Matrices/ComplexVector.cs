@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Diagnostics.Contracts;
-
 using MathLib.Statistics;
 using Util;
 
@@ -25,15 +23,15 @@ namespace MathLib.Matrices
         ///<exception cref="ArgumentOutOfRangeException">Dimension is less
         /// than or equal to zero.</exception>
         public ComplexVector(int dimension, VectorType orientation = VectorType.RowVector,
-                             Complex initialValue = default(Complex))
+                             Complex initialValue = default)
             : base(orientation == VectorType.RowVector ? 1 : dimension, orientation == VectorType.RowVector ? dimension : 1)
         {
             // // Contract.Requires(dimension >= 1);
 
-            if (!initialValue.Equals(default(Complex)))
-                for (int r = 0; r < Rows; r++)
-                    for (int c = 0; c < Columns; c++ )
-                        ValuesData[r, c] = initialValue;            
+            if (initialValue.Equals(default)) return;
+            for (int r = 0; r < Rows; r++)
+            for (int c = 0; c < Columns; c++ )
+                ValuesData[r, c] = initialValue;
         }
 
         ///<summary>
@@ -79,26 +77,14 @@ namespace MathLib.Matrices
 
         #region IVector<Complex> Members
 
-        public VectorType Orientation
-        {
-            get {
-                return Rows == 1 ? VectorType.RowVector : VectorType.ColumnVector;
-            }
-        }
+        public VectorType Orientation => Rows == 1 ? VectorType.RowVector : VectorType.ColumnVector;
 
-        public int Length
-        {
-            get {
-                return Rows == 1 ? Columns : Rows;
-            }
-        }
+        public int Length => Rows == 1 ? Columns : Rows;
 
         public Complex this[int index]
         {
 
-            get {
-                return Rows == 1 ? ValuesData[0, index] : ValuesData[index, 0];
-            }
+            get => Rows == 1 ? ValuesData[0, index] : ValuesData[index, 0];
             set
             {
                 if (Rows == 1)

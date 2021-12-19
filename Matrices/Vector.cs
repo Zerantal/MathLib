@@ -75,60 +75,22 @@ namespace MathLib.Matrices
 
         #endregion
 
-        public new int Rows
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<int>() == 1 || Columns == 1);
-                // //Contract.Ensures(// Contract.OldValue(Rows) == Rows);
-                // //Contract.Ensures(// Contract.OldValue(base.Rows) == base.Rows);
-                return base.Rows;
-            }            
-        }
+        public new int Rows => base.Rows;
 
-        
-        public new int Columns
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<int>() == 1 || Rows == 1);
-                return base.Columns;
-            }            
-        }
-       
-        public new double[,] ValuesData
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<double[,]>() != null);
-                // //Contract.Ensures(// Contract.OldValue(Rows) == Rows);
-                // //Contract.Ensures(// Contract.OldValue(Columns) == Columns);
-                return base.ValuesData;
-            }
-        }
+
+        public new int Columns => base.Columns;
+
+        public new double[,] ValuesData => base.ValuesData;
 
         #region IVector Members
 
-        public VectorType Orientation
-        {
-            get
-            {
-                return Rows == 1 ? VectorType.RowVector : VectorType.ColumnVector;
-            }
-        }
+        public VectorType Orientation => Rows == 1 ? VectorType.RowVector : VectorType.ColumnVector;
 
-        public int Length
-        {
-            get {
-                return Rows == 1 ? Columns : Rows;
-            }
-        }
+        public int Length => Rows == 1 ? Columns : Rows;
 
         public double this[int index]
         {
-            get {
-                return Rows == 1 ? ValuesData[0, index] : ValuesData[index, 0];
-            }
+            get => Rows == 1 ? ValuesData[0, index] : ValuesData[index, 0];
             set
             {
                 if (Rows == 1)

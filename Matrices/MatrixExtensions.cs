@@ -1,5 +1,5 @@
-﻿using System.Diagnostics.Contracts;
-using System.Numerics;
+﻿using System.Numerics;
+// ReSharper disable UnusedMember.Global
 
 namespace MathLib.Matrices
 {

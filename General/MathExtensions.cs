@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Numerics;
-using System.Diagnostics.Contracts;
 
-using MathLib.Matrices;
-
-namespace MathLib
+namespace MathLib.General
 {
     public static class MathExtensions
     {

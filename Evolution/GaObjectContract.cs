@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 namespace MathLib.Evolution
 {
     [ContractClassFor(typeof(GaObject<,>))]
-    abstract class GaObjectContract<TObject, TChromosome> : GaObject<TObject, TChromosome>
+    internal abstract class GaObjectContract<TObject, TChromosome> : GaObject<TObject, TChromosome>
         where TObject : GaObject<TObject, TChromosome>
         where TChromosome : class, IChromosome<TChromosome>
     {

@@ -7,21 +7,7 @@ namespace MathLib.Evolution
         where TObject : GaObject<TObject, TChromosome>
         where TChromosome : class, IChromosome<TChromosome>
     {
-        private TChromosome _chromosome;
-
-        protected TChromosome Chromosome
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<TChromosome>() != null);
-                return _chromosome; 
-            }
-            set
-            {
-                // // Contract.Requires(value != null);
-                _chromosome = value; 
-            }
-        }
+        protected TChromosome Chromosome { get; set; }
 
         protected abstract TObject CreateObject();        
 
@@ -31,25 +17,18 @@ namespace MathLib.Evolution
         {
             TObject child = CreateObject();
 
-            child._chromosome = _chromosome.Crossover(additionalParent.Chromosome);
+            child.Chromosome = Chromosome.Crossover(additionalParent.Chromosome);
 
             return child;            
         }        
 
         public void Mutate()
         {
-            _chromosome.Mutate();            
+            Chromosome.Mutate();            
         }
 
         public abstract double Fitness();
         #endregion
 
-        [ContractInvariantMethod]
-        // ReSharper disable UnusedMember.Local
-        private void ObjectInvariant()
-        // ReSharper restore UnusedMember.Local
-        {
-            // Contract.Invariant(_chromosome != null);
-        }
     }
 }

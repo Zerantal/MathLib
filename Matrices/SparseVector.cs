@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+// ReSharper disable UnusedParameter.Local
 
 namespace MathLib.Matrices
 {
@@ -35,26 +36,14 @@ namespace MathLib.Matrices
 
         #region IVector<double> Members
 
-        public VectorType Orientation
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public VectorType Orientation => throw new NotImplementedException();
 
-        public int Length
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int Length => throw new NotImplementedException();
 
         public double this[int index]
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         public SparseVector ArrayMultiplication(SparseVector rhs)
@@ -71,30 +60,18 @@ namespace MathLib.Matrices
 
         #region INumericVector Members
 
-        public double Norm
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public double Norm => throw new NotImplementedException();
 
-        public double NormSquared
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public double NormSquared => throw new NotImplementedException();
 
         public bool IsEqualTo(SparseVector arg, double errorTolerance)
         {
             throw new NotImplementedException();
         }
 
-        public double InfinityNorm
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public double InfinityNorm => throw new NotImplementedException();
 
-        public double OneNorm
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public double OneNorm => throw new NotImplementedException();
 
         #endregion
 

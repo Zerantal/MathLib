@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
-using System.Diagnostics.Contracts;
+// ReSharper disable UnusedMember.Global
 
 
 namespace MathLib.Matrices
@@ -20,7 +21,8 @@ namespace MathLib.Matrices
         }
 
         public ComplexSparseVector(int dimension, VectorType orientation, IEnumerable<Tuple<int, Complex>> initialValues)
-            : base(orientation == VectorType.RowVector ? 1 : dimension, orientation == VectorType.RowVector ? dimension : 1)
+            : base(orientation == VectorType.RowVector ? 1 : dimension, orientation == VectorType.RowVector ? dimension : 1, initialValues.Select(
+                t => new Tuple<int, int, Complex>(t.Item1, 0, t.Item2)))
 
         {
             // // Contract.Requires(dimension > 0);
@@ -37,26 +39,14 @@ namespace MathLib.Matrices
 
         #region IVector<ComplexSparseVector,Complex> Members
 
-        public VectorType Orientation
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public VectorType Orientation => throw new NotImplementedException();
 
-        public int Length
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int Length => throw new NotImplementedException();
 
         public Complex this[int index]
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         public ComplexSparseVector ArrayMultiplication(ComplexSparseVector rhs)

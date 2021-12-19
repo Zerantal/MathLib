@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Util;
+using MathLib.General;
 
 #endregion
 
@@ -14,92 +13,38 @@ namespace MathLib.Evolution
 {   
     public sealed class EvolutionEngine<T> where T : class, IEvolvableObject<T>
     {
-        private readonly int _offspringPerGeneration;
         private List<T> _currentPopulation;
         private bool _evolutionStopped = true;
         private int _elitismSelection;
-        private IFitnessSelector<T> _fitnessSelector;
 
         public EvolutionEngine(IList<T> initialPopulation, int offspringPerGeneration)
         {
-            // // Contract.Requires(initialPopulation != null);
-            // // Contract.Requires(initialPopulation.Count > 0);
-            // // Contract.Requires(// Contract.ForAll(initialPopulation, obj => obj != null));
-            // // Contract.Requires(offspringPerGeneration >= 1);                        
-            
+            //Contract.Requires(initialPopulation != null);
+            //Contract.Requires(initialPopulation.Count > 0);
+            //Contract.Requires(// Contract.ForAll(initialPopulation, obj => obj != null));
+            //Contract.Requires(offspringPerGeneration >= 1);
+
             _currentPopulation = new List<T> (initialPopulation);
-            _offspringPerGeneration = offspringPerGeneration;
-            _fitnessSelector = new RouletteSelector<T>();
+            OffspringPerGeneration = offspringPerGeneration;
+            FitnessSelector = new RouletteSelector<T>();
             // Contract.Assume(initialPopulation[0] != null);
             BestSolution = initialPopulation[0];
             // Contract.Assume(// Contract.ForAll(_currentPopulation, obj => obj != null));
         }
 
-        private T _bestSolution;
-        public T BestSolution
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<T>() != null);
-                return _bestSolution;
-            }
-            private set
-            {
-                // // Contract.Requires(value != null); 
-                _bestSolution = value;
-            }
-        }
+        public T BestSolution { get; private set; }
 
-        private int _currentGeneration;
-        public int CurrentGeneration
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<int>() >= 0); 
-                return _currentGeneration; 
-            }
-        }
+        public int CurrentGeneration { get; private set; }
 
         public int ElitismSelection
         {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<int>() >= 0 && // Contract.Result<int>() <= OffspringPerGeneration);
-                return _elitismSelection; 
-            }
-            set
-            {
-                // // Contract.Requires(value >= 0);
-                if (value > OffspringPerGeneration)
-                    _elitismSelection = OffspringPerGeneration;
-                else
-                    _elitismSelection = value;                
-            }
+            get => _elitismSelection;
+            set => _elitismSelection = value > OffspringPerGeneration ? OffspringPerGeneration : value;
         }
 
-        public IFitnessSelector<T> FitnessSelector
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<IFitnessSelector<T>>() != null);
-                return _fitnessSelector;
-            }
-            set
-            {
-                // // Contract.Requires(value != null);
+        public IFitnessSelector<T> FitnessSelector { get; set; }
 
-                _fitnessSelector = value;
-            }
-        }
-
-        public int OffspringPerGeneration
-        {
-            get
-            {
-                // //Contract.Ensures(// Contract.Result<int>() >= 1);
-                return _offspringPerGeneration; 
-            }
-        }
+        public int OffspringPerGeneration { get; }
 
         public event EventHandler NewGenerationCreated;
 
@@ -117,8 +62,8 @@ namespace MathLib.Evolution
                 CreateNextGeneration(populationFitness);
 
                 generationCount++;
-                _currentGeneration++;                
-                OnNewGenerationCreated(new EventArgs());
+                CurrentGeneration++;                
+                OnNewGenerationCreated(EventArgs.Empty);
             }
         }      
 
@@ -128,12 +73,11 @@ namespace MathLib.Evolution
             // // Contract.Requires(populationFitness != null);
             // // Contract.Requires(populationFitness.Count > 0);
 
-            T child;
             List<T> nextGeneration = new List<T>();           
 
             // generate next generation
-            List<T> parents1 = new List<T>(_fitnessSelector.SelectParents(populationFitness, OffspringPerGeneration));
-            List<T> parents2 = new List<T>(_fitnessSelector.SelectParents(populationFitness, OffspringPerGeneration));
+            List<T> parents1 = new List<T>(FitnessSelector.SelectParents(populationFitness, OffspringPerGeneration));
+            List<T> parents2 = new List<T>(FitnessSelector.SelectParents(populationFitness, OffspringPerGeneration));
                         
             // Contract.Assert(parents1.Count() == OffspringPerGeneration);
             // Contract.Assert(parents2.Count() == OffspringPerGeneration);
@@ -143,19 +87,19 @@ namespace MathLib.Evolution
             for (int i = 0; i < OffspringPerGeneration; i ++)
             {
                 // Contract.Assert(i < parents2.Count());    
-                child = parents1[i].RecombineWith(parents2[i]);
+                var child = parents1[i].RecombineWith(parents2[i]);
                 child.Mutate();
                 nextGeneration.Add(child);
             }
                        
             if (ElitismSelection != 0)
             {
-                int startIdx = populationFitness.Count() - ElitismSelection;
+                int startIdx = populationFitness.Count - ElitismSelection;
                 int selectionCount = ElitismSelection;
                 if (startIdx < 0)
                 {
                     startIdx = 0;
-                    selectionCount = populationFitness.Count();
+                    selectionCount = populationFitness.Count;
                 }
                 nextGeneration.AddRange(populationFitness.GetRange(startIdx, selectionCount).Select(t => t.Item1));
             }
@@ -169,18 +113,13 @@ namespace MathLib.Evolution
 
             // return all fitness evaluations normalised such that all fitness are greater than zero
             // the aggregate fitness is equal to 1. Sort in increasing fitness as well
-            Dictionary<T, Task<double>> taskDictionary = new Dictionary<T, Task<double>>();
+            Dictionary<T, Task<double>> taskDictionary = _currentPopulation.ToDictionary(solution1 => solution1, solution1 => Task.Factory.StartNew(solution1.Fitness));
 
             // start all fitness evaluation concurrently and store them in task dictionary
-            foreach(T solution in _currentPopulation)
-            {
-                T solution1 = solution;
-                taskDictionary.Add(solution1, Task.Factory.StartNew(() => solution1.Fitness()));
-            }
 
             // acquire results on all fitness evaluations
             List<Tuple<T, double>> fitnessScores = new List<Tuple<T, double>>();
-            T bestSoln = _currentPopulation[0];
+            T bestSolution = _currentPopulation[0];
             double maxFitness = double.MinValue;
             double minFitness = double.MaxValue;
             foreach (KeyValuePair<T, Task<double>> kvp in taskDictionary)
@@ -191,12 +130,12 @@ namespace MathLib.Evolution
                 if (fitness > maxFitness)
                 {
                     maxFitness = fitness;
-                    bestSoln = kvp.Key;
+                    bestSolution = kvp.Key;
                 }
                 if (fitness < minFitness) minFitness = fitness;
             }
-            // Contract.Assume(bestSoln != null);  // should be able to be proven?
-            BestSolution = bestSoln;
+            // Contract.Assume(bestSolution != null);  // should be able to be proven?
+            BestSolution = bestSolution;
             minFitness += Constants.Epsilon; // ensure that lowest score is non zero
 
             // sort in increasing order
@@ -222,10 +161,7 @@ namespace MathLib.Evolution
 
             EventHandler handler = NewGenerationCreated;
 
-            if (handler != null)
-            {
-                handler(this, e);
-            }            
+            handler?.Invoke(this, e);
         }
 
         [ContractInvariantMethod]
